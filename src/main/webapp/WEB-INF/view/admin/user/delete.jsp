@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
-
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,13 +15,32 @@
 
 </head>
 <body>
-   <div class="container">
-    <div>
-      <h1>Confirm delete of user id</h1>
+   <div class="container pt-5">
+    <div class="pb-5">
+      <h1>Confirm delete of user id ${id}</h1>
     </div>
-    <form action="" method="post" modelAttribute="deleteUser">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <form:form action="/admin/user/delete" method="post" modelAttribute="newUser">
+      <div class="form-group" style="display: none">
+        <label for="exampleInputEmail1">Id:</label>
+        <form:input type="text" value="${id}"  class="form-control" path="id"/>	
+      </div>
+      <hr>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Email</label>
+        <form:input type="email" class="form-control" path="email"   disabled="true"/>
+      </div>
+      <hr>
+      <div class="form-group">
+          <label for="exampleInputPassword1">Phone Number:</label>
+          <form:input type="tel" class="form-control" path="phone" placeholder="Phone" disabled="true"/>
+        </div>
+      <hr>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Full Name:</label>
+        <form:input type="text" class="form-control" path="fullName" placeholder="Full name" disabled="true"/>
+      </div>
+      <button type="submit" class="btn btn-primary mt-5">Submit</button>
+    </form:form>
    </div>
 </body>
 </html>

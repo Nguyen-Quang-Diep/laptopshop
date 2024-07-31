@@ -4,15 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kh.laptopshop.service.UserService;
 import com.kh.laptopshop.domain.User;
 import com.kh.laptopshop.repository.UserRepository;
+import com.kh.laptopshop.service.UserService;
 
 @Controller
 public class UserController {
@@ -71,10 +72,27 @@ public class UserController {
       currentUser.setFullName(user.getFullName());
       currentUser.setPhone(user.getPhone());
       currentUser.setAddress(user.getAddress());
-
       this.userService.handleSaveUser(currentUser);
     }
+    return "redirect:/admin/user";
+  }
 
+  @GetMapping("/admin/user/delete/{id}")
+  public String getDeleteUserPage(Model model, @PathVariable Long id) {
+    User currentUser = this.userService.getUserById(id);
+    model.addAttribute("newUser", currentUser);
+    return "/admin/user/delete";
+  }
+
+  @PostMapping("/admin/user/delete")
+  public String postDeleteUser(Model model, @ModelAttribute("newUser") User user) {
+    User currentUser = this.userService.getUserById(user.getId());
+    if (currentUser != null) {
+      currentUser.setEmail(user.getEmail());
+      currentUser.setFullName(user.getFullName());
+      currentUser.setPhone(user.getPhone());
+    }
+    this.userService.deleteUserById(user.getId());
     return "redirect:/admin/user";
   }
 
